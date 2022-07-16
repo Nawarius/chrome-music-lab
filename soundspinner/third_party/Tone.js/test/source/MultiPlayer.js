@@ -7,7 +7,7 @@ define(["helper/Basic", "Tone/source/MultiPlayer", "helper/Offline", "helper/Sou
 		var buffer = new Buffer();
 
 		beforeEach(function(done){
-			buffer.load("./audio/sine.wav", function(){
+			buffer.load("./soundspinner/audio/sine.wav", function(){
 				done();
 			});
 		});
@@ -34,7 +34,7 @@ define(["helper/Basic", "Tone/source/MultiPlayer", "helper/Offline", "helper/Sou
 		context("Loading", function(){
 
 			it("invokes callback when a single buffer is added", function(done){
-				var player = new MultiPlayer().addBuffer("sine", "./audio/sine.wav", function(){
+				var player = new MultiPlayer().addBuffer("sine", "./soundspinner/audio/sine.wav", function(){
 					player.dispose();
 					done();
 				});
@@ -42,9 +42,9 @@ define(["helper/Basic", "Tone/source/MultiPlayer", "helper/Offline", "helper/Sou
 
 			it("invokes callback when a multiple buffers are added", function(done){
 				var player = new MultiPlayer().addBuffer({
-					"sine": "./audio/sine.wav", 
-					"hh": "./audio/hh.mp3", 
-					"kick": "./audio/kick.mp3", 
+					"sine": "./soundspinner/audio/sine.wav", 
+					"hh": "./soundspinner/audio/hh.mp3", 
+					"kick": "./soundspinner/audio/kick.mp3", 
 				}, function(){
 					player.dispose();
 					done();

@@ -18,13 +18,13 @@ define(["Tone/core/Buffer"], function (Buffer) {
 
 	var soundUrls = [ {
 		title: 'Your voice',
-		url: 'audio/useyourvoice.mp3'
+		url: 'soundspinner/audio/useyourvoice.mp3'
 	},{
 		title:'experiment',
-		url: 'audio/toexperiment.mp3'
+		url: 'soundspinner/audio/toexperiment.mp3'
 	},{
 		title:'La Di Da',
-		url: 'audio/ladida.mp3'
+		url: 'soundspinner/audio/ladida.mp3'
 	}];
 
 	var Loader = function(callback){

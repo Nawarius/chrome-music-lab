@@ -57,7 +57,7 @@
 
     this.exportWAV = function(cb, type){
       currCallback = cb || config.callback;
-      type = type || config.type || 'audio/wav';
+      type = type || config.type || 'soundspinner/audio/wav';
       if (!currCallback) throw new Error('Callback not set');
       worker.postMessage({
         command: 'exportWAV',

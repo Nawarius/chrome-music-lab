@@ -6,7 +6,7 @@ define(["helper/Basic", "Tone/source/Player", "helper/Offline", "helper/SourceTe
 		var buffer = new Buffer();
 
 		beforeEach(function(done){
-			buffer.load("./audio/sine.wav", function(){
+			buffer.load("./soundspinner/audio/sine.wav", function(){
 				done();
 			});
 		});
@@ -35,7 +35,7 @@ define(["helper/Basic", "Tone/source/Player", "helper/Offline", "helper/SourceTe
 		context("Loading", function(){
 
 			it("loads a url which was passed in", function(done){
-				var player = new Player("./audio/sine.wav", function(){
+				var player = new Player("./soundspinner/audio/sine.wav", function(){
 					player.dispose();
 					done();
 				});
@@ -43,7 +43,7 @@ define(["helper/Basic", "Tone/source/Player", "helper/Offline", "helper/SourceTe
 
 			it("loads a url using the load method", function(done){
 				var player = new Player();
-				player.load("./audio/sine.wav", function(){
+				player.load("./soundspinner/audio/sine.wav", function(){
 					expect(player._buffer).to.be.instanceof(Buffer);
 					done();
 				});
@@ -51,7 +51,7 @@ define(["helper/Basic", "Tone/source/Player", "helper/Offline", "helper/SourceTe
 
 			it("can be created with an options object", function(){
 				var player = new Player({
-					"url" : "./audio/sine.wav",
+					"url" : "./soundspinner/audio/sine.wav",
 					"loop" : true
 				});
 				player.dispose();
@@ -59,7 +59,7 @@ define(["helper/Basic", "Tone/source/Player", "helper/Offline", "helper/SourceTe
 
 			it("can autostart after loading", function(done){
 				var player = new Player({
-					"url" : "./audio/sine.wav",
+					"url" : "./soundspinner/audio/sine.wav",
 					"autostart" : true,
 					"onload" : function(){
 						setTimeout(function(){
@@ -159,7 +159,7 @@ define(["helper/Basic", "Tone/source/Player", "helper/Offline", "helper/SourceTe
 
 			it("can get an options object", function(){
 				var player = new Player({
-					"url" : "./audio/sine.wav",
+					"url" : "./soundspinner/audio/sine.wav",
 					"loopStart" : 0.2,
 					"loopEnd" : 0.3,
 					"loop" : true,
@@ -248,7 +248,7 @@ define(["helper/Basic", "Tone/source/Player", "helper/Offline", "helper/SourceTe
 			});
 
 			it("reports itself as stopped after a single iterations of the buffer", function(done){
-				var player = new Player("./audio/kick.mp3", function(){
+				var player = new Player("./soundspinner/audio/kick.mp3", function(){
 					var duration = player.buffer.duration;
 					player.start();
 					setTimeout(function(){
