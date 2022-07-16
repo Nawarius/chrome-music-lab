@@ -55,7 +55,7 @@ b.on('log', gutil.log);
 /**
  * This task removes all files inside the 'dist' directory.
  */
-gulp.task('clean', function()
+gulp.task('clean', async function()
 {
     del.sync('./dist/**/*');
 });
@@ -64,56 +64,57 @@ gulp.task('clean', function()
  * This task will copy all files from libs into 'dist/libs'.
  * If you want to process them, just add your code to this task.
  */
-gulp.task('libs', ['clean'], function()
+gulp.task('libs', gulp.series('clean', function()
 {
     return gulp.src(['./src/libs/**'])
         .pipe(plumber())
         .pipe(gulp.dest('./dist/libs'))
-});
+}));
 
 /**
  * This task will copy all files from media into 'dist/media'.
  * If you want to process them, just add your code to this task.
  */
-gulp.task('media', ['libs'], function()
+gulp.task('media', gulp.series('libs', function()
 {
     return gulp.src(['./src/media/**'])
         .pipe(plumber())
-        .pipe(gulp.dest('./dist/media'));
-});
+        .pipe(gulp.dest('./dist/soundwave/media'));
+}));
 
 
 /**
  * This task will copy all files from css into 'dist/css'.
  * If you want to process them, just add your code to this task.
  */
-gulp.task('css', ['media'], function()
+gulp.task('css', gulp.series('media', function()
 {
     return gulp.src(['./src/css/**'])
         .pipe(plumber())
-        .pipe(gulp.dest('./dist/css'));
-});
+        .pipe(gulp.dest('./dist/soundwave/css'));
+}));
 
 /**
  * This task will copy index.html into 'dist'.
  * If you want to process it, just add your code to this task.
  */
-gulp.task('index', ['css'], function()
+gulp.task('index', gulp.series('css', function()
 {
     return gulp.src(['./src/index.html'])
         .pipe(plumber())
         .pipe(gulp.dest('./dist'));
-});
+}));
 
 /**
  * This task will bundle all other js files and babelify them.
  * If you want to add other processing to the main js files, add your code here.
  */
-gulp.task('bundle', ['index'], function()
+gulp.task('bundle', gulp.series('index', function()
 {
     return b.bundle()
         .on('error', function(err)
         {
+            console.log('Bundle Error: ');
             console.log(err.message);
             browserSync.notify(err.message, 3000);
             this.emit('end');
@@ -124,8 +125,8 @@ gulp.task('bundle', ['index'], function()
         // .pipe(uglify())
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist'));
-});
+        .pipe(gulp.dest('./dist/soundwave/js'));
+}));
 
 /**
  * This task starts watching the files inside 'src'. If a file is changed,
@@ -136,31 +137,31 @@ gulp.task('bundle', ['index'], function()
  * media from bundling the source. This is especially true if you have large
  * amounts of media.
  */
-gulp.task('watch', ['bundle'], function()
+gulp.task('watch', gulp.series('bundle', function()
 {
-    var watcher = gulp.watch('./src/**/*', ['refresh']);
+    var watcher = gulp.watch('./src/**/*', gulp.series('refresh'));
     watcher.on('change', function(event)
     {
         console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
     });
-});
+}));
 
 
 /**
  * This task starts browserSync. Allowing refreshes to be called from the gulp
  * bundle task.
  */
-gulp.task('browser-sync', ['watch'], function()
+gulp.task('browser-sync', gulp.series('watch', function()
 {
     return browserSync({ server:  { baseDir: './dist' } });
-});
+}));
 
 /**
  * This is the default task which chains the rest.
  */
-gulp.task('default', ['browser-sync']);
+gulp.task('default', gulp.series('browser-sync'));
 
 /**
  * Using a dependency ensures that the bundle task is finished before reloading.
  */
-gulp.task('refresh', ['bundle'], browserSync.reload);
+gulp.task('refresh', gulp.series('bundle', browserSync.reload));

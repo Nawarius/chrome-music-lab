@@ -95,7 +95,7 @@ o3djs.shader.loadTextFileSynchronous = function(url) {
 o3djs.shader.loadFromURL = function(gl,
                                     vertexURL,
                                     fragmentURL) {
-
+                                                                  
   var vertexText = o3djs.shader.loadTextFileSynchronous(vertexURL);
   var fragmentText = o3djs.shader.loadTextFileSynchronous(fragmentURL);
 
@@ -148,7 +148,7 @@ o3djs.shader.Shader = function(gl, vertex, fragment) {
   var linked = this.gl.getProgramParameter(this.program, this.gl.LINK_STATUS);
   if (!linked) {
     var infoLog = this.gl.getProgramInfoLog(this.program);
-    output("Error linking program:\n" + infoLog);
+    console.error("Error linking program:\n" + infoLog);
     this.gl.deleteProgram(this.program);
     this.program = null;
     return;
@@ -196,7 +196,7 @@ o3djs.shader.Shader.prototype.loadShader = function(type, shaderSrc) {
   // Check the compile status
   if (!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) {
     var infoLog = this.gl.getShaderInfoLog(shader);
-    output("Error compiling shader:\n" + infoLog);
+    console.error("Error compiling shader:\n" + infoLog);
     this.gl.deleteShader(shader);
     return null;
   }

@@ -40,7 +40,7 @@ if( gl ){
 	var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 	//full screen button on iOS
 	if (isIOS){
-
+		
 		tone.startMobile()
 
 		//make a full screen element and put it in front
@@ -59,7 +59,12 @@ if( gl ){
 			window.parent.postMessage("ready","*");
 		});
 	} else {
-		window.parent.postMessage("ready","*");
+		StartAudioContext.setContext(tone.context);
+		StartAudioContext.on(document.body);
+		StartAudioContext.onStarted(function(){
+			// iOSTapper.remove();
+			window.parent.postMessage("ready","*");
+		});
 	}
 
 

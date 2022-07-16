@@ -52,7 +52,7 @@ function Player() {
 	this.buffers = {};
 
 	// Connect an empty source node to the mix.
-	Util.loadTrackSrc(this.context, 'bin/snd/empty.mp3', function(buffer) {
+	Util.loadTrackSrc(this.context, '/spectro/bin/snd/empty.mp3', function(buffer) {
 		var source = this.createSource_(buffer, true);
 		source.loop = true;
 		source.start(0);

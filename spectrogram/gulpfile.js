@@ -1,6 +1,6 @@
 // -----------------------------------------------------------
 var gulp 			= require('gulp'),
-	sass 			= require('gulp-sass'),
+	sass 			= require('gulp-sass')(require('sass')),
 	autoPrefixer 	= require('gulp-autoprefixer'),
 	minifyCSS 		= require('gulp-minify-css'),
 	browserify 		= require('gulp-browserify'),
@@ -16,9 +16,8 @@ var gulp 			= require('gulp'),
 	iconfontCss 	= require('gulp-iconfont-css');
 // -----------------------------------------------------------
 
-
 gulp.task('sass', function() {
-	gulp.src("src/sass/*.scss")
+	return gulp.src("src/sass/*.scss")
 	.pipe(sass())
 	.on('error', function(error) {
 		console.log(error);
@@ -26,10 +25,10 @@ gulp.task('sass', function() {
 	})
 	.pipe(autoPrefixer())
 	.pipe(minifyCSS())
-	.pipe(gulp.dest("build/css"));
+	.pipe(gulp.dest("build/spectro/css"));
 });
 gulp.task('templates', function() {
-  gulp.src('src/jade/**/*.jade')
+  	return gulp.src('src/jade/**/*.jade')
 	.pipe(jade({}))
 	.on('error', function(error) {
 		console.log(error);
@@ -48,10 +47,10 @@ gulp.task('images', function() {
     		}
     	)
     ))
-    .pipe(gulp.dest('./build/img'));
+    .pipe(gulp.dest('./build/spectro/img'));
 });
 gulp.task('browserify', function() {
-	gulp.src(['src/javascripts/main.js'])
+	return gulp.src(['src/javascripts/main.js'])
 	.pipe(browserify({
 		insertGlobals: true,
 		debug: true
@@ -62,25 +61,25 @@ gulp.task('browserify', function() {
 	})
 	.pipe(uglify())
 	.pipe(concat('app.js'))
-	.pipe(gulp.dest('build/js'));
+	.pipe(gulp.dest('build/spectro/js'));
 });
 
 gulp.task('bundle-libs', function() {
   return gulp.src('src/javascripts/o3djs/*.js')
     .pipe(concat('bundle.js'))
     // .pipe(uglify())
-    .pipe(gulp.dest('build/js'));
+    .pipe(gulp.dest('build/spectro/js'));
 });
 
 gulp.task('insert-bin',function(){
 	return gulp.src('src/bin/**')
-	.pipe(copy('build/bin',{
+	.pipe(copy('build/spectro/bin',{
 		prefix:2
 	}));
 });
 
 gulp.task('iconfont', function(){
-	gulp.src(['src/icons/*.svg'])
+	return gulp.src(['src/icons/*.svg'])
 	.pipe(iconfontCss({
 		fontName: "icons",
 		path: 'src/assets/templates/_icons.scss',
@@ -91,11 +90,11 @@ gulp.task('iconfont', function(){
 		fontName: "icons",
 		normalize: true
 	}))
-	.pipe(gulp.dest('build/bin/fonts/icons/'));
+	.pipe(gulp.dest('build/spectro/bin/fonts/icons/'));
 });
 
 gulp.task('webserver', function() {
-  gulp.src('./build')
+  return gulp.src('./build')
     .pipe(webserver({
       livereload: true,
       open: true,
@@ -103,14 +102,14 @@ gulp.task('webserver', function() {
     }));
 });
 gulp.task('watch', function() {
-	gulp.watch("src/icons/**/*.svg", 		['iconfont'		]);
-	gulp.watch("src/assets/**/*", 			['iconfont'		]);
-	gulp.watch("src/sass/**/*", 			['sass'			]);
-	gulp.watch('src/jade/**/*.jade', 		['templates'	]);
-	gulp.watch('src/javascripts/**', 		['browserify'	]);
-	gulp.watch('src/javascripts/lib/**', 	['bundle-libs'	]);
-	gulp.watch('src/images/**', 			['images'		]);
-	gulp.watch('src/bin/**', 				['insert-bin'	]);
+	gulp.watch("src/icons/**/*.svg", 		gulp.series('iconfont'		));
+	gulp.watch("src/assets/**/*", 			gulp.series('iconfont'		));
+	gulp.watch("src/sass/**/*", 			gulp.series('sass'			));
+	gulp.watch('src/jade/**/*.jade', 		gulp.series('templates'	));
+	gulp.watch('src/javascripts/**', 		gulp.series('browserify'	));
+	gulp.watch('src/javascripts/lib/**', 	gulp.series('bundle-libs'	));
+	gulp.watch('src/images/**', 			gulp.series('images'		));
+	gulp.watch('src/bin/**', 				gulp.series('insert-bin'	));
 });
-gulp.task('build-all',['iconfont','sass','templates','browserify','bundle-libs','images','insert-bin']);
-gulp.task('default',['watch','webserver']);
+gulp.task('build-all', gulp.series('iconfont','sass','templates','browserify','bundle-libs','images','insert-bin'));
+gulp.task('default', gulp.series('webserver', 'watch'));

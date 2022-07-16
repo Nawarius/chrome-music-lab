@@ -19,7 +19,7 @@ limitations under the License.
 'use strict';
 
 window.isMobile = ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) );
-window.isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+//window.isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 window.isAndroid = /Android/.test(navigator.userAgent) && !window.MSStream;
 
 window.requestAnimFrame = (function(){
@@ -34,6 +34,7 @@ window.requestAnimFrame = (function(){
 // -~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~
 var spec3D = require('./UI/spectrogram');
 // -~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~
+var $ = window.$
 
 $(function(){
 	var parseQueryString = function(){
@@ -100,17 +101,10 @@ $(function(){
 				$(this).addClass('selected');
 				// check for start recoding data instruction **********************
 				if ($(this).attr('data-mic')!== undefined) {
-					if(window.isIOS){
-						// Throw Microphone Error *********************************
-						window.parent.postMessage('error2','*');
-						// Remove Selection ***************************************
-						$(this).removeClass('selected');
-					}else{
-						// Show Record Modal Screen *******************************
-						$('#record').fadeIn().delay(2000).fadeOut();
-						// Start Recording ****************************************
-						sp.live();
-					}
+					// Show Record Modal Screen *******************************
+					$('#record').fadeIn().delay(2000).fadeOut();
+					// Start Recording ****************************************
+					sp.live();
 				// Check for Start drawing data instruction  **********************
 				}else if ($(this).attr('data-draw') !== undefined) {
 					sp.drawingMode = true;
@@ -222,16 +216,9 @@ $(function(){
         fileDrop();
 	};
 
-	var elm = $('#iosButton');
-	if(!window.isIOS){
-		elm.addClass('hide');
-		startup();
-    console.log(2);
-	}else{
-		window.parent.postMessage('loaded','*');
-		elm[0].addEventListener('touchend', function(e){
-			elm.addClass('hide');
-			startup();
-		},false);
-	}
+
+	startup();
+	console.log(2);
+	
+	
 });
