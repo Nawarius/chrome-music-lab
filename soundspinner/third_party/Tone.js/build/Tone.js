@@ -20147,12 +20147,19 @@
 	        if (Tone.ExternalInput.sources[this._inputNum]) {
 	            this._constraints = { audio: { optional: [{ sourceId: Tone.ExternalInput.sources[this._inputNum].id }] } };
 	        }
-	        navigator.getUserMedia(this._constraints, function (stream) {
-	            this._onStream(stream);
-	            callback();
-	        }.bind(this), function (err) {
-	            error(err);
-	        });
+	        // navigator.getUserMedia(this._constraints, function (stream) {
+	        //     this._onStream(stream);
+	        //     callback();
+	        // }.bind(this), function (err) {
+	        //     error(err);
+	        // });
+
+			navigator.mediaDevices.getUserMedia(this._constraints).then(function (stream) {
+				this._onStream(stream)
+				callback()
+			}.bind(this)).catch(err => {
+				error(err);
+			});
 	    };
 	    /**
 		 * called when the stream is successfully setup
@@ -20264,7 +20271,7 @@
 		 */
 	    Object.defineProperty(Tone.ExternalInput, 'supported', {
 	        get: function () {
-	            return Tone.prototype.isFunction(navigator.getUserMedia);
+	            return Tone.prototype.isFunction(navigator.mediaDevices.getUserMedia);
 	        }
 	    });
 	    /**

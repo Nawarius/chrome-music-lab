@@ -102,10 +102,18 @@ define(["Tone/core/Tone", "Tone/source/Source", "Tone/core/Gain"], function(Tone
 				}
 			};
 		}
-		navigator.getUserMedia(this._constraints, function(stream){
-			this._onStream(stream);
-			callback();
-		}.bind(this), function(err){
+
+		// navigator.getUserMedia(this._constraints, function(stream){
+		// 	this._onStream(stream);
+		// 	callback();
+		// }.bind(this), function(err){
+		// 	error(err);
+		// });
+
+		navigator.mediaDevices.getUserMedia(this._constraints).then(function (stream) {
+			this._onStream(stream)
+			callback()
+		}.bind(this)).catch(err => {
 			error(err);
 		});
 	};
@@ -116,9 +124,12 @@ define(["Tone/core/Tone", "Tone/source/Source", "Tone/core/Gain"], function(Tone
 	 * @private
 	 */
 	Tone.ExternalInput.prototype._onStream = function(stream){
+		console.log('Here')
 		if (!this.isFunction(this.context.createMediaStreamSource)){
 			throw new Error("browser does not support the 'MediaStreamSourceNode'");
 		}
+		console.log("EXT onstream")
+		console.log(this._stream)
 		//can only start a new source if the previous one is closed
 		if (!this._stream){
 			this._stream = stream;
@@ -229,7 +240,7 @@ define(["Tone/core/Tone", "Tone/source/Source", "Tone/core/Gain"], function(Tone
 	 */
 	Object.defineProperty(Tone.ExternalInput, "supported", {
 		get : function(){
-			return Tone.prototype.isFunction(navigator.getUserMedia);
+			return Tone.prototype.isFunction(navigator.mediaDevices.getUserMedia);
 		}
 	});
 

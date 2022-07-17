@@ -71,13 +71,13 @@ require(["domready", "interface/UserInterface", "main.scss", "mic/Waveform", "mi
 			clearTimeout(buttonTimeout);
 		});
 
-		if (!Microphone.supported){
-			interface.disableRecording(function(){
-				//unsupported
-				console.log("unsupported");
-				window.parent.postMessage("error2","*");
-			});
-		}
+		//if (!Microphone.supported){
+			// interface.disableRecording(function(){
+			// 	//unsupported
+			// 	console.log("unsupported");
+			// 	window.parent.postMessage("error2","*");
+			// });
+		//}
 
 
 		//soundspinner/audio////////////////////////////////////////////////
@@ -110,11 +110,7 @@ require(["domready", "interface/UserInterface", "main.scss", "mic/Waveform", "mi
 			//full screen button on iOS
 			if (isIOS){
 				//make a full screen element and put it in front
-				// var iOSTapper = document.createElement("div");
-				// iOSTapper.id = "iOSTap";
-				// document.body.appendChild(iOSTapper);
 				new StartAudioContext(Tone.context).then(function() {
-					//iOSTapper.remove();
 					window.parent.postMessage("ready","*");
 				});
 			} else {
@@ -122,7 +118,6 @@ require(["domready", "interface/UserInterface", "main.scss", "mic/Waveform", "mi
 				new StartAudioContext(Tone.context).then(function() {
 					window.parent.postMessage("ready","*");
 				});
-				window.parent.postMessage("ready","*");
 			}
 		});
 
