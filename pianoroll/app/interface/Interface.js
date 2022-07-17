@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-define(["style/interface.scss", "./SoundSelection", "./PlayButton", "mic/Microphone"], 
+define(["interface.scss", "./SoundSelection", "./PlayButton", "mic/Microphone"], 
 function (interfaceStyle, SoundSelection, PlayButton, Microphone) {
 
 	var Interface = function(container){

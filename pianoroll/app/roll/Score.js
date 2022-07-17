@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-define(["roll/Note", "interval-tree-1d", "style/roll.scss"], 
+define(["roll/Note", "interval-tree-1d", "roll.scss"], 
 function (Note, createIntervalTree, rollStyle) {
 	
 	/**

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-require(["domready", "roll/Roll", "sound/Player", "interface/Interface", "Tone/core/Transport",
-        "midi/preludeInC.json", "StartAudioContext", "style/main.scss", "Tone/core/Tone", "interface/Orientation", "interface/Overlay"],
+require(["domready", "roll/Roll", "sound/Player", "interface/Interface", "Tone/core/Transport", "pianoroll/midi/preludeInC.json",
+        "StartAudioContext", "main.scss", "Tone/core/Tone", "interface/Orientation", "interface/Overlay"],
     function (domReady, Roll, Player, Interface, Transport, preludeInC,
               StartAudioContext, mainStyle, Tone, Orientation, Overlay) {
 
-        domReady(function () {
+        domReady(async function () {
 
             //the interface
             var player = new Player();
@@ -90,15 +90,14 @@ require(["domready", "roll/Roll", "sound/Player", "interface/Interface", "Tone/c
             //full screen button on iOS
             if (isIOS) {
                 //make a full screen element and put it in front
-                var iOSTapper = document.createElement("div");
-                iOSTapper.id = "iOSTap";
-                document.body.appendChild(iOSTapper);
-                new StartAudioContext(Tone.context, iOSTapper).then(function() {
-                    iOSTapper.remove();
+
+                new StartAudioContext(Tone.context).then(function() {
                     window.parent.postMessage('ready', '*');
                 });
             } else {
-                window.parent.postMessage("ready", "*");
+                new StartAudioContext(Tone.context).then(function() {
+                    window.parent.postMessage('ready', '*');
+                });
             }
 
         });

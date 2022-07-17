@@ -102,10 +102,17 @@ define(["Tone/core/Tone", "Tone/source/Source", "Tone/core/Gain"], function(Tone
 				}
 			};
 		}
-		navigator.getUserMedia(this._constraints, function(stream){
+		// navigator.getUserMedia(this._constraints, function(stream){
+		// 	this._onStream(stream);
+		// 	callback();
+		// }.bind(this), function(err){
+		// 	error(err);
+		// });
+		navigator.mediaDevices.getUserMedia(this._constraints).then(function (stream) {
 			this._onStream(stream);
 			callback();
-		}.bind(this), function(err){
+		}.bind(this))
+		.catch(function (err) {
 			error(err);
 		});
 	};
@@ -229,7 +236,7 @@ define(["Tone/core/Tone", "Tone/source/Source", "Tone/core/Gain"], function(Tone
 	 */
 	Object.defineProperty(Tone.ExternalInput, "supported", {
 		get : function(){
-			return Tone.prototype.isFunction(navigator.getUserMedia);
+			return Tone.prototype.isFunction(navigator.mediaDevices.getUserMedia);
 		}
 	});
 

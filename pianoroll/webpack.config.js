@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+var path = require("path")
 var webpack = require("webpack");
 
 var PROD = JSON.parse(process.env.PROD_ENV || '0');
@@ -21,37 +21,46 @@ var PROD = JSON.parse(process.env.PROD_ENV || '0');
 module.exports = {
 	"context": __dirname,
 	entry: {
-		"PianoRoll": "app/Main",
+		main: "./app/Main",
 	},
 	output: {
-		filename: "./build/[name].js",
-		chunkFilename: "./build/[id].js",
+		path: path.resolve(__dirname, 'pianoroll'),
+		filename: "./js/[name].js",
+		chunkFilename: "./js/[id].js",
 		sourceMapFilename : "[file].map",
 	},
+	mode: 'production',
 	resolve: {
-		root: __dirname,
-		modulesDirectories : ["node_modules", "style", "app", "third_party", "third_party/Tone.js/"],
+		modules: ["node_modules", "style", "app", "third_party", "third_party/Tone.js/", "pianoroll"],
+		extensions: ['.ts', '.js', '.json']
 	},
-	plugins: PROD ? [
-	    new webpack.optimize.UglifyJsPlugin({minimize: true})
-	  ] : [],
-	 module: {
-		loaders: [
+	plugins:[
+	    //new webpack.optimize.UglifyJsPlugin({minimize: true})
+	],
+	devServer: {
+		static: {
+		  directory: path.join(__dirname, ''),
+		},
+		compress: true,
+		port: 4000,
+	},
+	module: {
+		rules: [
 			{
 				test: /\.scss$/,
-				loader: "style!css!autoprefixer!sass"
+				use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"]
 			},
 			{
 				test: /\.(png|gif)$/,
-				loader: "url-loader",
+				use: ["url-loader"],
 			},
+			// {
+			// 	test: /\.json$/,
+			// 	loader: "json-loader",
+			// },
 			{
-				test: /\.json$/,
-				loader: "json",
-			},
-			{
-				test   : /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-				loader : "file-loader?name=images/font/[hash].[ext]"
+				test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+				use: ["file-loader?name=images/font/[hash].[ext]"]
 			}
 		]
 	}

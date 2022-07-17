@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-define(["./Score", "Tone/core/Transport", "style/roll.scss", "./Scroll"], 
+define(["./Score", "Tone/core/Transport", "roll.scss", "./Scroll"], 
 function (Score, Transport, rollStyle, Scroll) {
 
 	/**

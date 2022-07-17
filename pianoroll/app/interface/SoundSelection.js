@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-define(["style/interface.scss"], function (interfaceStyle) {
+define(["interface.scss"], function (interfaceStyle) {
 
 	var SoundSelection = function(container){
 

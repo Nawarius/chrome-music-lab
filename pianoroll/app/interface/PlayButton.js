@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-define(["style/interface.scss", "data/Scores", "Tone/core/Transport", "interface/Loader"], 
+define(["interface.scss", "data/Scores", "Tone/core/Transport", "interface/Loader"], 
 	function (interfaceStyle, Scores, Transport, Loader) {
 
 	var PlayButton = function(container){
@@ -123,7 +123,7 @@ define(["style/interface.scss", "data/Scores", "Tone/core/Transport", "interface
 		var name = Scores[this._scoreIndex];
 		var loader = new Loader("score");
 		var xhr = new XMLHttpRequest();
-		xhr.open("GET", "./midi/" + name + ".json");
+		xhr.open("GET", "pianoroll/midi/" + name + ".json");
 		xhr.onreadystatechange = function () {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {

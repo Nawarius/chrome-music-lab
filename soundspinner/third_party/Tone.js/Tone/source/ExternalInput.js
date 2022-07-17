@@ -124,12 +124,9 @@ define(["Tone/core/Tone", "Tone/source/Source", "Tone/core/Gain"], function(Tone
 	 * @private
 	 */
 	Tone.ExternalInput.prototype._onStream = function(stream){
-		console.log('Here')
 		if (!this.isFunction(this.context.createMediaStreamSource)){
 			throw new Error("browser does not support the 'MediaStreamSourceNode'");
 		}
-		console.log("EXT onstream")
-		console.log(this._stream)
 		//can only start a new source if the previous one is closed
 		if (!this._stream){
 			this._stream = stream;

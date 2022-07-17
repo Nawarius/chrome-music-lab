@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-define(["style/loading.scss"], function (loadStyle) {
+define(["loading.scss"], function (loadStyle) {
 
 	var Loader = function(type, info){
 

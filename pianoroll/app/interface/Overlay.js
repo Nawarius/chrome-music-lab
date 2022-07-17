@@ -1,4 +1,4 @@
-define(["style/overlay.scss", "midiconvert/build/MidiConvert", "interface/Loader", "Tone/core/Transport"],
+define(["overlay.scss", "midiconvert/build/MidiConvert", "interface/Loader", "Tone/core/Transport"],
     function (overlayStyle, MidiConvert, Loader, Transport) {
         const MIDI_UPLOAD_MSG_ERROR = 'Only MIDI files will work here.';
         const MIDI_UPLOAD_MSG = 'Drop your MIDI file here.';
