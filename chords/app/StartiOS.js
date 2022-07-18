@@ -24,15 +24,13 @@ define(["StartAudioContext", "Tone/core/Tone"], function (StartAudioContext, Ton
 		// full screen button on iOS
 		if (isIOS || isAndroid) {
 			// make a full screen element and put it in front
-			var iOSTapper = document.createElement("div");
-			iOSTapper.id = "iOSTap";
-			document.body.appendChild(iOSTapper);
-      new StartAudioContext(Tone.context, iOSTapper).then(function() {
-        iOSTapper.remove();
-        window.parent.postMessage('ready','*');
-      });
+			new StartAudioContext(Tone.context).then(function() {
+				window.parent.postMessage('ready','*');
+			});
 		} else {
-			window.parent.postMessage('ready','*');
+			new StartAudioContext(Tone.context).then(function() {
+				window.parent.postMessage('ready','*');
+			});
 		}
 	};
 });

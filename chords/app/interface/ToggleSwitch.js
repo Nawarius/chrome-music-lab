@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-define(["style/toggleswitch.scss"], function (mainStyle, Slider) {
+define(["toggleswitch.scss"], function (mainStyle, Slider) {
 
 	var Toggle = function(container, leftLabel, rightLabel, initialValue){
 

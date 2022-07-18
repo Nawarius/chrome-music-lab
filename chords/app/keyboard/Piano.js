@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-define(["keyboard/Key", "style/keyboard.scss", "keyboard/Notes", "data/Colors"], function(Key, mainStyle, Notes, Colors){
+define(["keyboard/Key", "keyboard.scss", "keyboard/Notes", "data/Colors"], function(Key, mainStyle, Notes, Colors){
 
 	var enharmonics = {
 		"C#" : "Db",

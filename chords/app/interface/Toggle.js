@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-define(["style/toggle.scss", "interface/ToggleSwitch", "Translation"], function (toggleStyle, Toggle, Translate) {
+define(["toggle.scss", "interface/ToggleSwitch", "Translation"], function (toggleStyle, Toggle, Translate) {
 
 	var ModeToggle = function(container){
 
