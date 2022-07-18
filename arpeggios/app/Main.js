@@ -17,26 +17,6 @@
 require(["domready", "main.scss", "StartAudioContext", "Tone/core/Tone"], 
 function(domReady, mainStyle, StartAudioContext, Tone){
 
-	function testiOS(){
-    // send the ready message to the parent
-    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    var isAndroid = /Android/.test(navigator.userAgent) && !window.MSStream;
-
-    // full screen button on iOS
-    if (isIOS || isAndroid) {
-      // make a full screen element and put it in front
-      var iOSTapper = document.createElement("div");
-      iOSTapper.id = "iOSTap";
-      document.body.appendChild(iOSTapper);
-      new StartAudioContext(Tone.context, iOSTapper).then(function() {
-        iOSTapper.remove();
-        window.parent.postMessage('ready','*');
-      });
-    } else {
-      window.parent.postMessage('ready','*');
-    }
-	}
-
 	domReady(function(){
 
 		require(["chord/Chord", "sound/Sound", "part/Parts"], 
@@ -46,8 +26,10 @@ function(domReady, mainStyle, StartAudioContext, Tone){
 				Sound.load(function(){
 					//post the loaded message
 					window.parent.postMessage("loaded", "*");
-					//the ios tests
-					testiOS();
+
+					new StartAudioContext(Tone.context).then(function() {
+            window.parent.postMessage('ready','*');
+          });
 				});
 		});
 	});
