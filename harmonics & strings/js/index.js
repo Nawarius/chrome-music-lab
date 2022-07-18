@@ -451,24 +451,10 @@ function rsize(e) {
 window.addEventListener('resize', rsize, false);
 
 function iOSBlocker(){
-	//full screen button on iOS
-	if (isIOS){
-		//make a full screen element and put it in front
-		var iOSTapper = document.createElement('div');
-		iOSTapper.id = 'iOSTap';
-		iOSTapper.addEventListener('touchstart', function(e){
-			e.preventDefault();
-		});
-		document.body.appendChild(iOSTapper);
-		StartAudioContext.setContext(Tone.context);
-		StartAudioContext.on(iOSTapper);
-		StartAudioContext.onStarted(function(){
-			iOSTapper.remove();
-			window.parent.postMessage('ready','*');
-		});
-	} else {
+	StartAudioContext.setContext(Tone.context);
+	StartAudioContext.onStarted(function(){
 		window.parent.postMessage('ready','*');
-	}
+	});
 }
 
 if (MODE === 0){

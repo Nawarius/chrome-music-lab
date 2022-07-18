@@ -82,7 +82,7 @@ ThreadController.prototype.init = function() {
 		// Make one for the top part of the string, one for bottom.
 		for (var i = 0; i < howMany; i++) {
 			segment = (i == 0) ? "top" : "bottom";
-			player = new Tone.Player("./audio/harp_" + h + "_" + segment + ".mp3").toMaster();
+			player = new Tone.Player("strings/audio/harp_" + h + "_" + segment + ".mp3").toMaster();
 			player.retrigger = true; // allow it to be played and layered
 			player.volume.value = -9.0;
 			this.arrPlayers[h][i] = player;
