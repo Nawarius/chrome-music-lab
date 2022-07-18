@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-require(['domready', 'style/main.scss', 'grid/Grid', 'interface/Bottom', 'sound/Sequencer', 
+require(['domready', 'main.scss', 'grid/Grid', 'interface/Bottom', 'sound/Sequencer', 
 	'Tone/core/Transport', 'sound/Player', 'StartAudioContext'],
 function(domReady, mainStyle, Grid, Bottom, Sequencer, Transport, Player, StartAudioContext) {
 	domReady(function() {
@@ -50,15 +50,13 @@ function(domReady, mainStyle, Grid, Bottom, Sequencer, Transport, Player, StartA
 		//full screen button on iOS
 		if (isIOS || isAndroid){
 			//make a full screen element and put it in front
-			var iOSTapper = document.createElement("div");
-			iOSTapper.id = "iOSTap";
-            document.body.appendChild(iOSTapper);
-			new StartAudioContext(Transport.context, iOSTapper).then(function() {
-				iOSTapper.remove();
+			new StartAudioContext(Transport.context).then(function() {
 				window.parent.postMessage('ready','*');
 			});
 		} else {
-			window.parent.postMessage('ready','*');
+			new StartAudioContext(Transport.context).then(function() {
+				window.parent.postMessage('ready','*');
+			});
 		}
 	});
 });

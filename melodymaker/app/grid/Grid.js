@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-define(['style/grid.scss', 'data/Config', 'data/Colors', 'grid/Tile', 'grid/AI', "tween.js"],
+define(['grid.scss', 'data/Config', 'data/Colors', 'grid/Tile', 'grid/AI', "tween.js"],
 	function(gridStyle, Config, Colors, Tile, AI, TWEEN) {
 	var Grid = function(container) {
 

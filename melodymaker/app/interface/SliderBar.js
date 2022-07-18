@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-define(["style/slider.scss"], function (mainStyle) {
+define(["slider.scss"], function (mainStyle) {
 
 	var Slider = function(container, min, max, initialValue){
 

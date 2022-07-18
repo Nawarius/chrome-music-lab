@@ -22,37 +22,46 @@ var PROD = JSON.parse(process.env.PROD_ENV || '0');
 module.exports = {
 	"context": __dirname,
 	entry: {
-		"Main": "app/Main",
+		main: "./app/Main",
 	},
 	output: {
-		filename: "./build/[name].js",
-		chunkFilename: "./build/[id].js",
+		path: path.resolve(__dirname, 'melodymaker'),
+		filename: "./js/[name].js",
+		chunkFilename: "./js/[id].js",
 		sourceMapFilename : "[file].map",
 	},
+	mode: 'production',
 	resolve: {
-		root: __dirname,
-		modulesDirectories : ["style", "app", "third_party/Tone.js/", "third_party", "node_modules"],
+		modules : ["style", "app", "third_party/Tone.js/", "third_party", "node_modules"],
+		extensions: ['.ts', '.js', '.json']
 	},
-	plugins: PROD ? [
-	    new webpack.optimize.UglifyJsPlugin({minimize: true})
-	  ] : [],
+	plugins: [
+	    //new webpack.optimize.UglifyJsPlugin({minimize: true})
+	],
+	devServer: {
+		static: {
+		  directory: path.join(__dirname, ''),
+		},
+		compress: true,
+		port: 4000,
+	},
 	 module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.scss$/,
-				loader: "style!css!autoprefixer-loader!sass"
+				use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"]
 			},
-			{
-				test: /\.json$/,
-				loader: "json"
-			},
+			// {
+			// 	test: /\.json$/,
+			// 	loader: "json"
+			// },
 			{
 				test: /\.(png|gif)$/,
-				loader: "url-loader",
+				use: ["url-loader"],
 			}, 
 			{
 				test   : /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-				loader : "file-loader?name=images/font/[hash].[ext]"
+				use : ["file-loader?name=images/font/[hash].[ext]"]
 			}
 		]
 	}

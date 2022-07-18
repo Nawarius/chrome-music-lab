@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-define(['style/bottom.scss', 'interface/Slider', 'Tone/core/Transport', 'interface/Orientation'],
+define(['bottom.scss', 'interface/Slider', 'Tone/core/Transport', 'interface/Orientation'],
 function(bottomStyle, Slider, Transport, Orientation) {
 
 
